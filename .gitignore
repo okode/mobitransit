@@ -16,6 +16,7 @@ build
 .gradle
 
 # Eclipse STS
+bin
 .classpath
 .project
 .settings

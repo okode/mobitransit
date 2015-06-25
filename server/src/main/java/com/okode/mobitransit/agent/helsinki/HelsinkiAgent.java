@@ -4,8 +4,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import javax.jms.Destination;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
+import javax.jms.Topic;
+
+import org.apache.activemq.command.ActiveMQTopic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
@@ -33,13 +43,14 @@ public class HelsinkiAgent {
 	
 	RestTemplate restTemplate = new RestTemplate();
 	
+	@Autowired
+	JmsTemplate jmsTemplate;
+	
 	/**
 	 * Reads the remote service (http lookup) and send updated data to JMS bus
 	 */
-	@Scheduled(fixedDelay=1000)
+	@Scheduled(fixedRate=1000)
 	private void onTick() {			
-		
-		// TODO: Check JMS connectivity
 		
 		// Get transport positions from the source
 		String positions = getTransportPositions();
@@ -125,7 +136,8 @@ public class HelsinkiAgent {
 					transportInfo.setLine(line);
 				}
 				
-				// TODO: Send JMS Message
+				// Send JMS Message
+				sendBusPosition(line, id, latitude, longitude, orientation);
 			}
 		}
 		
@@ -142,6 +154,26 @@ public class HelsinkiAgent {
 		}
 	}
 	
+	private Destination getDestination() {
+		return new ActiveMQTopic("mobitransit.helsinki");
+	}
+	
+	private void sendBusPosition(String line, String id, float latitude, float longitude, int orientation) {
+		
+		jmsTemplate.send(getDestination(), new MessageCreator() {
+			@Override
+            public Message createMessage(Session session) throws JMSException {
+				Message buspos = session.createMessage();
+				buspos.setStringProperty(LINE_PROPERTY, line);
+				buspos.setStringProperty(NUMBERPLATE_PROPERTY, id);
+				buspos.setFloatProperty(LATITUDE_PROPERTY, latitude);
+				buspos.setFloatProperty(LONGITUDE_PROPERTY, longitude);
+				buspos.setIntProperty(ORIENTATION_PROPERTY, orientation);
+                return buspos;
+            }
+		});
+	}
+	
 	/** 
 	 * Gets transport positions from helsinki webservice
 	 * <br/>
@@ -152,7 +184,6 @@ public class HelsinkiAgent {
 	 * If ID transport starts with 'E' -> Bus
 	 */
 	private String getTransportPositions() {
-		
 		try {
 			return restTemplate.getForEntity(URL, String.class).getBody();
 		} catch (RestClientException e) {
