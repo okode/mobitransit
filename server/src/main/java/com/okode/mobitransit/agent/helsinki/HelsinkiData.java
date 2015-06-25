@@ -76,6 +76,7 @@ public class HelsinkiData {
 		configDOM = getFilePropertiesValue(fileTypes.CONFIG);
 		linesDOM = getFilePropertiesValue(fileTypes.LINES);
 		stopsDOM = getFilePropertiesValue(fileTypes.STOPS);
+		initialized = true;
 	}
 
 	public Node getFilePropertiesValue(fileTypes type) {
@@ -188,11 +189,11 @@ public class HelsinkiData {
 			if (lDate != null) {
 				lastRequestUpdate = lDate.getTime();
 			}
-		}
 
-		if (lastModified <= lastRequestUpdate) {
-			response.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
-			return;
+			if (lastModified <= lastRequestUpdate) {
+				response.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
+				return;
+			}
 		}
 
 		// Creating response Gzipped file

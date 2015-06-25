@@ -23,7 +23,7 @@ import org.w3c.dom.Element;
 @RestController
 public class StopSchedule {
 
-	private final static String SCHEDULES_URL = "http://api.reittiopas.fi/public-ytv/fi/api/";
+	private final static String SCHEDULES_URL = "http://api.reittiopas.fi/hsl/prod/";
 	private final static String USER = "mobicityuser";
 	private final static String PASS = "m0b1c1t12010";
 
@@ -57,7 +57,7 @@ public class StopSchedule {
 
 		Long stopId = Long.parseLong(request.getParameter("id"));
 
-		URL u = new URL(SCHEDULES_URL + "?stop=" + stopId + "&user=" + USER + "&pass=" + PASS);
+		URL u = new URL(SCHEDULES_URL + "?request=stop&code=" + stopId + "&user=" + USER + "&pass=" + PASS);
 		InputStream is = u.openStream();
 		BufferedReader d = new BufferedReader(new InputStreamReader(is, feedCharset));
 		String s = null;
