@@ -8,7 +8,6 @@ import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Session;
-import javax.jms.Topic;
 
 import org.apache.activemq.command.ActiveMQTopic;
 import org.slf4j.Logger;
@@ -46,11 +45,13 @@ public class HelsinkiAgent {
 	@Autowired
 	JmsTemplate jmsTemplate;
 	
+	Destination destination;
+	
 	/**
 	 * Reads the remote service (http lookup) and send updated data to JMS bus
 	 */
 	@Scheduled(fixedRate=1000)
-	private void onTick() {			
+	private void onTick() {
 		
 		// Get transport positions from the source
 		String positions = getTransportPositions();
@@ -155,7 +156,10 @@ public class HelsinkiAgent {
 	}
 	
 	private Destination getDestination() {
-		return new ActiveMQTopic("mobitransit.helsinki");
+		if (destination == null) {
+			destination = new ActiveMQTopic("mobitransit.helsinki");
+		}
+		return destination;
 	}
 	
 	private void sendBusPosition(String line, String id, float latitude, float longitude, int orientation) {

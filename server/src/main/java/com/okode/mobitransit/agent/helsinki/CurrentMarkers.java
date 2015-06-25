@@ -42,6 +42,8 @@ public class CurrentMarkers {
 
 	@RequestMapping("/services/helsinki/markers.gz")
 	public void index(HttpServletResponse response) throws IOException {
+		response.setContentType("application/octet-stream");
+		
 		GZIPOutputStream out = new GZIPOutputStream(response.getOutputStream());
 
 		Element e = null;
