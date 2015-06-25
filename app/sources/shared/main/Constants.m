@@ -1,9 +1,8 @@
 #import "Constants.h"
-#import "current_svn_revision.h"
 
 #define MOB_BASE_URL "http://www.mobitransit.com/helsinki"
 
-NSString * const kMobHost			= @"www.mobitransit.com";
+NSString * const kMobHost			= @"pro01.okode.com";
 NSString * const kMobUser			= @"helsinki";
 NSString * const kMobPass			= @"h3ls1nk1";
 NSString * const kMobQueue			= @"/topic/mobitransit.helsinki";
@@ -37,6 +36,6 @@ NSString * const kMobRate			= @"/MobitransitRate";
 NSString * const kServerError		= @"/ServerError";
 NSString * const kConnectError		= @"/ConnectError";
 NSString * const kMobPrefix			= @"mobitransitHelsinki";
-NSString * const kMobVersion		= @"Version 1.0 "CURRENT_SVN_REVISION;
+NSString * const kMobVersion		= @"Version 1.0";
 
 NSString * const kMobitransitId		= @"412630444";
