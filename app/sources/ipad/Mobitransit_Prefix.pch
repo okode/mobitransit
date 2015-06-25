@@ -1,0 +1,8 @@
+//
+// Prefix header for all source files of the 'Mobitransit' target in the 'Mobitransit' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+    #import <UIKit/UIKit.h>
+#endif
