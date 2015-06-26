@@ -58,6 +58,9 @@
           zoomScale:(MKZoomScale)zoomScale
           inContext:(CGContextRef)context
 {
+    // Decoration overlay disabled (black square around the map)
+    
+    /*
     MultipleOverlays *multiPolygon = (MultipleOverlays *)self.overlay;
 	CGFloat lineWidth = 100;
 
@@ -85,6 +88,7 @@
 			CGPathRelease(path);
         }
     }
+    */
 }
 
 
