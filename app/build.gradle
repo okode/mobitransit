@@ -1,0 +1,36 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+        mavenCentral()
+    }
+    dependencies {
+        classpath "gradle.plugin.org.openbakery:xcode-plugin:0.11.2"
+    }
+}
+
+apply plugin: "org.openbakery.xcode-plugin"
+
+xcodebuild {
+    scheme        = PROJECT_NAME
+    target        = PROJECT_NAME
+//    workspace     = PROJECT_NAME + ".xcworkspace"
+    configuration = "Release"
+    sdk           = "iphoneos"
+    
+    signing {
+        identity = SIGNING_IDENTITY
+        keychain = "~/Library/Keychains/login.keychain"
+    }
+
+}
+
+infoplist {
+    version = BUILD_NUMBER
+}
+
+task release(dependsOn: "package") {
+    description = "Package"
+}
+
