@@ -112,10 +112,10 @@
 	if(userRegion!=nil){
 		MKCoordinateRegion tempRegion;
 		[userRegion getBytes: &tempRegion];
-		[mapView setRegion:tempRegion animated:NO];
+		//[mapView setRegion:tempRegion animated:NO];
 	}else{
 		MKCoordinateRegion newRegion = [[delegate data] cityRegion];
-		[mapView setRegion:newRegion animated:NO];
+		//[mapView setRegion:newRegion animated:NO];
 	}	
 }
 
@@ -131,7 +131,7 @@
 	MKCoordinateRegion newRegion = [mapView region];
 	newRegion.center.latitude = latitude;
 	newRegion.center.longitude = longitude;
-	[mapView setRegion:newRegion animated:YES];	
+	//[mapView setRegion:newRegion animated:YES];
 }
 
 #pragma mark -
@@ -577,7 +577,7 @@
 		}
 		if(ZoomChanged){
 			MKCoordinateRegion region = MKCoordinateRegionMake(CLLocationCoordinate2DMake(tmpLat, tmpLong), span);
-			[mapView setRegion:region animated:YES];
+			//[mapView setRegion:region animated:YES];
 		}
 	}else{
 		adjustView = NO;

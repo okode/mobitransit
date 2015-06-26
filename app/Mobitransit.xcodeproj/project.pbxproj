@@ -1251,7 +1251,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3E3F6A0A127EF89B00D00023 /* Build configuration list for PBXNativeTarget "Mobitransit" */;
 			buildPhases = (
-				3EC09A34128034CC004935E4 /* Store Current SVN Revision */,
 				3E3F6A00127EF89A00D00023 /* Resources */,
 				3E3F6A01127EF89A00D00023 /* Sources */,
 				3E3F6A02127EF89A00D00023 /* Frameworks */,
@@ -1270,6 +1269,8 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Mobitransit" */;
 			compatibilityVersion = "Xcode 3.1";
 			developmentRegion = English;
@@ -1469,24 +1470,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		3EC09A34128034CC004935E4 /* Store Current SVN Revision */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Store Current SVN Revision";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Current dir is $PROJECT_DIR\nCURRENT_SVN_REVISION=`svnversion`\necho \"#define CURRENT_SVN_REVISION \\\"$CURRENT_SVN_REVISION\\\"\" > sources/shared/main/current_svn_revision.h";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3E3F6A01127EF89A00D00023 /* Sources */ = {
