@@ -1,0 +1,114 @@
+body {
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	font: 400 0.7em verdana, arial, sans-serif;
+	line-height: 170%;
+	background-repeat: repeat-x;
+	background-position: left top;
+	background-color: #f2f2f2;
+
+}
+
+.top {
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	font: 400 0.7em verdana, arial, sans-serif;
+	line-height: 170%;
+	background-image: url(images/bg-top.png);
+	background-repeat: no-repeat;
+	background-position: left top;
+	background-color: #f2f2f2;
+
+}
+
+.topblue {
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	font: 400 0.7em verdana, arial, sans-serif;
+	line-height: 170%;
+	background-image: url(images/topblue.png);
+	background-repeat: no-repeat;
+	background-position: left top;
+	background-color: #f2f2f2;
+
+}
+
+.topblue2 {
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	font: 400 0.7em verdana, arial, sans-serif;
+	line-height: 170%;
+	background-image: url(images/topblue2.png);
+	background-repeat: no-repeat;
+	background-position: left top;
+	background-color: #f2f2f2;
+
+}
+
+.bgiphone {
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	font: 400 0.7em verdana, arial, sans-serif;
+	line-height: 170%;
+	background-image: url(images/bgiphone.png);
+	background-repeat: repeat;
+	background-position: left top;
+	background-color: #767c83;
+
+}
+
+.bgwhite {
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	font: 400 0.7em verdana, arial, sans-serif;
+	line-height: 170%;
+	background-image: url(images/bgwhite.png);
+	background-repeat: repeat;
+	background-position: left top;
+	background-color: #ffffff;
+
+}
+
+.bgfb {
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	font: 400 0.7em verdana, arial, sans-serif;
+	line-height: 170%;
+	background-image: url(images/cuadrfb.png);
+	background-repeat: repeat;
+	background-position: left top;
+	background-color: #ffffff;
+
+}
+
+.txtlinkw {
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: bold;
+	font-variant: normal;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+
+.txtlinkw:hover {
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: bold;
+	font-variant: normal;
+	color: #cccccc;
+	text-decoration: none;
+}
+.bgwhite table tr .bgiphone table tr td table tr td {
+	font-size: 2em;
+	color: #FFF;
+}
