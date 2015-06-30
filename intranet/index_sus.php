@@ -10,7 +10,7 @@ $serviceId = $_GET['serviceid'];
 $cryptUtil = new SICUCrypt();
 $decrypted = $cryptUtil->decrypt($data);
 $parameters = [];
-parse_str($decrypted, $parameters); 
+parse_str($decrypted, $parameters);
 
 $user = $parameters['useremail'];
 
@@ -40,8 +40,10 @@ $debug = true;
 	</div>
 	<div id="column_right" class="column_right">
 		<?php
+		error_log($user);
+		error_log($decrypted);
 			$loggedUser = $query->findUserByEmail($user);
-			
+
 			if ($loggedUser) {
 				echo "<a href=\"configurate.php?user=$user\" class=\"link\">Access your control panel</a>";
 			} else { 

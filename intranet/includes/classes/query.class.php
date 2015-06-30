@@ -15,7 +15,7 @@ class query {
 			//$this->lang = $lang;
 			 
 			if (mysqli_connect_errno()) {
-				echo "La conexión a la BD falló. Causa: " . mysqli_connect_errno();
+				echo "La conexiÃ³n a la BD ha fallado. Causa: " . mysqli_connect_errno();
 				throw new Exception(DATABASE_CONNECTION_WARNING);
 			}
 			
@@ -51,10 +51,11 @@ class query {
 	 * @param $email User email.
 	 */
 	function findUserByEmail($email) {
+		$email = str_replace(chr(8), '', $email); // The end of the email came with backspaces
 		$emailEscape = $this->conn->real_escape_string($email);
 		$sentence = "SELECT c_id, c_lastupdate, c_email FROM t_user WHERE c_email='$emailEscape'";
 		$result = $this->conn->query($sentence);
-		
+
 		if($result->num_rows == 0)
 			return null;
 
