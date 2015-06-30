@@ -14,7 +14,7 @@
     {
     	// Configuration variables, it would be a good idea to move them to a configuration file
     	// and/or make them configurable through constructor. Both are provided at SUSAP backend.
-        private $iv = 'AWARzTe82'; // Initialization vector
+        private $iv = 'AWARzTe8'; // Initialization vector
         private $key = 'elegante'; // Secret key
 
         function __construct()

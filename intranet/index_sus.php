@@ -10,10 +10,12 @@ $serviceId = $_GET['serviceid'];
 $cryptUtil = new SICUCrypt();
 $decrypted = $cryptUtil->decrypt($data);
 $parameters = [];
-parse_str($decrypted, $parameters);
+parse_str($decrypted, $parameters); 
 
-// Enable in order to debug params received from the SUS AP 
-$debug = false;
+$user = $parameters['useremail'];
+
+// Enable in order to debug params received from the SUS AP
+$debug = true;
 
 ?>
 <div id="content" class="content">
@@ -39,6 +41,7 @@ $debug = false;
 	<div id="column_right" class="column_right">
 		<?php
 			$loggedUser = $query->findUserByEmail($user);
+			
 			if ($loggedUser) {
 				echo "<a href=\"configurate.php?user=$user\" class=\"link\">Access your control panel</a>";
 			} else { 
