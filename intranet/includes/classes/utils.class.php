@@ -14,7 +14,7 @@
     {
     	// Configuration variables, it would be a good idea to move them to a configuration file
     	// and/or make them configurable through constructor. Both are provided at SUSAP backend.
-        private $iv = 'AWARzTe82'; // Initialization vector
+        private $iv = 'AWARzTe8'; // Initialization vector
         private $key = 'elegante'; // Secret key
 
         function __construct()
@@ -63,27 +63,57 @@
           return $bindata;
         }
 
-		function unpadPKCS7($data, $blockSize) {
-    		  $length = strlen ( $data );
-    		  if ($length > 0) {
-        		$first = substr ( $data, - 1 );
+    		function unpadPKCS7($data, $blockSize) {
+        		  $length = strlen ( $data );
+        		  if ($length > 0) {
+            		$first = substr ( $data, - 1 );
 
-	         	if (ord ( $first ) <= $blockSize) {
-            			for($i = $length - 2; $i > 0; $i --)
-                		if (ord ( $data [$i] != $first ))
-                    			break;
+    	         	if (ord ( $first ) <= $blockSize) {
+                			for($i = $length - 2; $i > 0; $i --)
+                    		if (ord ( $data [$i] != $first ))
+                        			break;
 
-				return substr ( $data, 0, $i );
-        		}
-    		  }
-    		  return $data;
-		}
+    				return substr ( $data, 0, $i );
+            		}
+        		  }
+        		  return $data;
+    		}
 
 
-		function padPKCS7($text, $blockSize) {
-		  $pad = $blockSize - (strlen($text) % $blockSize);
-		  return $text . str_repeat(chr($pad), $pad);
-		}
+    		function padPKCS7($text, $blockSize) {
+    		  $pad = $blockSize - (strlen($text) % $blockSize);
+    		  return $text . str_repeat(chr($pad), $pad);
+    		}
 
     }
+
+    function sendSUSAPRegisterConfirmation($serviceId, $userId) {
+      $cryptUtil = new SICUCrypt();
+      $crc = urlencode($cryptUtil->encrypt($serviceId . '_' . $userId));
+      $registerURL = 'http://susap.smarturbanspaces.org/confirmation?serviceid=' . $serviceId . '&userid=' . $userId . '&crc=' . urlencode($crc);
+
+      error_log("Register URL : " . $registerURL);
+      
+      $curl = curl_init();
+      curl_setopt($curl, CURLOPT_URL, $registerURL);
+
+      curl_setopt($curl, CURLOPT_VERBOSE, 1);
+      curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+      $ret = curl_exec($curl);
+
+      $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+      error_log(print_r($ret, true));
+      error_log("ERROR??? : " . strpos($ret, 'Error'));
+
+      if($httpcode==200 && !strpos($ret, 'Error'))
+      {
+        return true;
+      } else {
+        // Redirect to SUS AP registration URL in order to show the error
+        header("Location: " . $registerURL);
+        die;
+      }
+    }
+
+
 ?>

@@ -12,7 +12,11 @@ $decrypted = $cryptUtil->decrypt($data);
 $parameters = [];
 parse_str($decrypted, $parameters);
 
-// Enable in order to debug params received from the SUS AP 
+$user = str_replace(chr(8), '', $parameters['useremail']);
+$userId = $parameters['userid'];
+$registerURL = urlencode($cryptUtil->encrypt($serviceId . '_' . $userId));
+
+// Enable in order to debug params received from the SUS AP
 $debug = false;
 
 ?>
@@ -32,17 +36,21 @@ $debug = false;
 			Parameters:
 			<pre>
 			<?php print_r($parameters); ?>
-			</pre>
+			<br/><br/>
+			Service ID: <?php echo $serviceId; ?>
+			<br/><br/>
+			Register URL: <?php echo $registerURL; ?>
 		<?php } ?>
 		</div>
 	</div>
 	<div id="column_right" class="column_right">
 		<?php
 			$loggedUser = $query->findUserByEmail($user);
+
 			if ($loggedUser) {
 				echo "<a href=\"configurate.php?user=$user\" class=\"link\">Access your control panel</a>";
 			} else { 
-				echo "<a href=\"configurate.php?user=$user\" class=\"link\">Sign up now!</a>";
+				echo "<a href=\"configurate.php?user=$user&serviceId=$serviceId&userId=$userId\" class=\"link\">Sign up now!</a>";
 			}
 		?>
 		

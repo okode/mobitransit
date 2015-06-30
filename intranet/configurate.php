@@ -1,14 +1,21 @@
 <?php
 include 'resources/header.php';
 include 'includes/classes/query.class.php';
+include 'includes/classes/utils.class.php';
 
 $query = new query();
 
 $user = $_GET['user'];
+$serviceId = $_GET['serviceId'];
+$userId = $_GET['userId'];
+
 $loggedUser = $query->findUserByEmail($user);
 $newUser = $loggedUser == null;
-if ($newUser) 
+if ($newUser) {
+	$susResult = sendSUSAPRegisterConfirmation($serviceId, $userId);
+	error_log("SUS AP registration: " . $susResult);
 	$loggedUser = $query->createNewUser($user);
+}
 	
 $loggedUserConfig = $query->findUserConfiguration($loggedUser->id);
 if ($loggedUserConfig == NULL)
@@ -56,7 +63,7 @@ echo "<form action=\"configurate.php?user=$user&action=update\" method=\"post\">
  		echo "<div class=\"li_subitem\"><input class=\"li_chk\" type=\"checkbox\" name=\"shareData\"/> Allow data to be used in other services from SUS AP</div>";
 ?>
 		<div class="li_note">
-				To be documented.
+				We will contact you for any suitable integration with other services, so you will always know any use of your data and the permission could be declined at any time.
 		</div>
 <?php	
  	if ($newUser)
