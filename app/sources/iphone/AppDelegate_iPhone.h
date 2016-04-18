@@ -18,13 +18,13 @@
 #import "ConfigurationController.h"
 #import "NewslettersController.h"
 #import "InformationController.h"
-#import "SA_OAuthTwitterEngine.h"
-#import "SA_OAuthTwitterController.h"
+//#import "SA_OAuthTwitterEngine.h"
+//#import "SA_OAuthTwitterController.h"
 #import "FBConnect.h"
 #import "ActivityIndicator.h"
 
 
-@interface AppDelegate_iPhone : NSObject <UIApplicationDelegate, MobitransitDelegate, UITabBarControllerDelegate, SA_OAuthTwitterControllerDelegate, FBDialogDelegate, FBRequestDelegate, FBSessionDelegate> {
+@interface AppDelegate_iPhone : NSObject <UIApplicationDelegate, MobitransitDelegate, UITabBarControllerDelegate, FBDialogDelegate, FBRequestDelegate, FBSessionDelegate> {
     
     UIWindow *window;
     UITabBarController *tabController;
@@ -46,7 +46,6 @@
     
     UITabBarItem *infoBarItem;
 	
-	SA_OAuthTwitterEngine *twitter;
 	BOOL twitterConnected;
     
     Facebook *facebook;
@@ -80,8 +79,6 @@
 -(void)changeMapTypeHybrid;
 -(BOOL)isUserLocationActive;
 
--(void)twitterLogin:(BOOL)connect;
--(void)twitMessage:(NSString *)message;
 -(void)facebookLoggin:(BOOL)connect;
 -(void)facebookMessage:(NSString *)message;
 -(void)updateInfoBadgeValue;
@@ -100,9 +97,6 @@
 -(void)showConnectionError;
 -(void)showLoading;
 -(void)showInactive;
--(void)initTwitter;
--(void)setTwitterLoggin:(BOOL)login;
--(BOOL)getTwitterLoggin;
 -(void)initFacebook;
 -(void)requestFacebookUserPicture;
 -(void)requestFacebookUserName;
@@ -134,9 +128,6 @@
 @property (nonatomic, retain) NSString *currentMarker;
 @property (nonatomic, assign) BOOL locationEnabled;
 @property (nonatomic, retain) IBOutlet UITabBarItem *infoBarItem;
-
-@property (nonatomic, retain) SA_OAuthTwitterEngine *twitter;
-@property (nonatomic, assign) BOOL twitterConnected;
 
 @property (nonatomic, retain) Facebook *facebook;
 @property (nonatomic, retain) UIImage *facebookUserPic;

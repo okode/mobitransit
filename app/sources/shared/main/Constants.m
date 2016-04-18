@@ -1,7 +1,7 @@
 #import "Constants.h"
 
 // For production use: http://www.mobitransit.com:8080
-#define MOB_BASE_URL "http://localhost:8080"
+#define MOB_BASE_URL "http://www.mobitransit.com:8080"
 
 NSString * const kMobHost			= @"www.mobitransit.com";
 NSString * const kMobUser			= @"helsinki";

@@ -29,8 +29,6 @@
 @synthesize newsView;
 @synthesize infoView;
 @synthesize infoBarItem;
-@synthesize twitter;
-@synthesize twitterConnected;
 @synthesize facebook;
 @synthesize facebookUserPic;
 @synthesize facebookUserName;
@@ -69,12 +67,11 @@
     [infoView setTitle:NSLocalizedString(@"INFO_TITLE",@"")];
     [detailView setTitle:NSLocalizedString(@"LINES",@"")];
     
-    [window addSubview:tabController.view];
+    //[window addSubview:tabController.view];
+    [self.window setRootViewController:tabController];
     [window makeKeyAndVisible];
 	[self showLoading];
 	
-	twitterConnected = [self getTwitterLoggin];
-	    
     facebookConnected = [self getFacebookLoggin];
 	if(facebookConnected){
         [self checkFacebookPicture];
@@ -682,12 +679,6 @@
         [newsView.tableView reloadData];
         [infoBarItem setBadgeValue:nil];
     }else if([content isKindOfClass:[ConfigurationController class]]){
-		if(!twitter){
-            [self initTwitter];
-		}
-        if(!facebook){
-            [self initFacebook];
-        }
 		[configView changeTwitterSwitch:[self getTwitterLoggin]];
         [configView changeFacebookSwitch:[self getFacebookLoggin]];
 	}
@@ -695,60 +686,6 @@
 
 #pragma mark -
 #pragma mark Twitter delegate methods
-
--(void)initTwitter{
-    twitter = [[SA_OAuthTwitterEngine alloc] initOAuthWithDelegate:self];  
-    twitter.consumerKey    = kOAuthConsumerKey;  
-    twitter.consumerSecret = kOAuthConsumerSecret; 
-}
-
--(void)twitterLogin:(BOOL)connect{
-	if(connect){
-		if(![twitter isAuthorized]){  
-			UIViewController *controller = [SA_OAuthTwitterController controllerToEnterCredentialsWithTwitterEngine:twitter delegate:self];  
-			if (controller){  
-				[tabController presentModalViewController:controller animated: YES];  
-			}  
-		}else{
-			[self setTwitterLoggin:YES];
-		}
-	}else{
-		[self setTwitterLoggin:NO];
-	}
-}
-
--(void)setTwitterLoggin:(BOOL)login{
-	NSUserDefaults	*defaults = [NSUserDefaults standardUserDefaults];
-	if(login){
-		[defaults setObject:@"LOGGED" forKey: @"loggedOnTwitter"];
-		twitterConnected = YES;
-	}else{
-		[defaults setObject:@"NOT_LOGGED" forKey: @"loggedOnTwitter"];
-        [twitter clearAccessToken];
-        twitterConnected = NO;
-	}
-	[defaults synchronize];
-}
-
-
--(BOOL)getTwitterLoggin{
-	NSString *result = [[NSUserDefaults standardUserDefaults] objectForKey:@"loggedOnTwitter"];
-	if(result == nil || [result isEqualToString:@"NOT_LOGGED"]){
-		return NO;
-	}else{
-		return YES;
-	}
-}
-
--(void)storeCachedTwitterOAuthData:(NSString *)theData forUsername: (NSString *) username {
-	NSUserDefaults	*defaults = [NSUserDefaults standardUserDefaults];
-	[defaults setObject:theData forKey: @"authData"];
-	[defaults synchronize];
-}
-
--(NSString *)cachedTwitterOAuthDataForUsername:(NSString *) username {
-	return [[NSUserDefaults standardUserDefaults] objectForKey:@"authData"];
-}
 
 -(void)requestSucceeded:(NSString *) requestIdentifier {
 	NSLog(@"Request %@ succeeded", requestIdentifier);
@@ -758,33 +695,6 @@
 -(void)requestFailed: (NSString *) requestIdentifier withError: (NSError *) error {
 	NSLog(@"Request %@ failed with error: %@", requestIdentifier, error);
 	[[ActivityIndicator currentIndicator] displayError:NSLocalizedString(@"UNEXPECTED_ERROR",@"")];
-}
-
--(void)OAuthTwitterController:(SA_OAuthTwitterController *)controller authenticatedWithUsername:(NSString *)username {
-	[self setTwitterLoggin:YES];
-	[configView changeTwitterSwitch:YES];
-}
-
--(void)OAuthTwitterControllerFailed:(SA_OAuthTwitterController *)controller {
-	[self setTwitterLoggin:NO];
-	[configView changeTwitterSwitch:NO];
-}
-
--(void)OAuthTwitterControllerCanceled:(SA_OAuthTwitterController *)controller {
-	[self setTwitterLoggin:NO];
-	[configView changeTwitterSwitch:NO];
-
-}
-
--(void)twitMessage:(NSString *)message {
-	if(!twitter){
-		[self initTwitter]; 
-	}if(![twitter isAuthorized]){
-		[self twitterLogin:YES];
-	}
-	
-	[twitter sendUpdate:message];
-    [[ActivityIndicator currentIndicator] displayActivity:NSLocalizedString(@"SENDING",@"")];
 }
 
 #pragma mark -
@@ -1007,7 +917,6 @@
     [infoBarItem release];
     [infoView release];
     [newsView release];
-	[twitter release];
     [facebook release];
     [facebookUserPic release];
     [facebookUserName release];
